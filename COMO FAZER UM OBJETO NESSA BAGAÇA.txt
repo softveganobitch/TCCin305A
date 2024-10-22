@@ -1,0 +1,12 @@
+- faz os atributos normal
+
+- tem q obrigatoriamente ter um atributo "public static string[] Lista" que o 'CRUDG' se baseará para fazer a leitura da tabela no BD. Essa lista tem que estar com os atributos na mesma ordem do método construtor. e tem q ter "INT" ou "BOOL" para que o metodo do 'CRUDG' possa saber quando converter o atributo para um inteiro ou booleano
+
+- um metedo contrutor vazio
+
+- um metodo construtor com todos os atributos como parâmetros
+
+- um metodo construtor com apenas o Id como parametro
+
+
+qualquer dúvida, use os objetos já feitos como exemplo. e caso nao faça a menor ideia mesmo, manda um zap, eu acho que voce ja sabe quem eu sou

@@ -1,0 +1,170 @@
+CREATE TABLE [dbo].[tb_Posicao] (
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](10) NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC)
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Status] (
+	[Id] [int] IDENTITY(1, 1) NOT NULL,
+	[Nome] [varchar] (15) NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC)
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Jogador] (
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](90) NOT NULL,
+	[Turma] [varchar](60) NOT NULL,
+	[Turno] [varchar](50) NOT NULL,
+	[Idade] [int] NOT NULL,
+	[Id_Posicao] [int] NOT NULL,
+	[PUUID] [int] NOT NULL,
+	[Telefone] [varchar](15) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[Id_Status] [int] NULL,
+	--[Senha] [nvarchar](64) NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Posicao]) REFERENCES [dbo].[tb_Posicao]([Id]),
+FOREIGN KEY ([Id_Status]) REFERENCES [dbo].[tb_Status]([Id]),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Treinador](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](90) NOT NULL,
+	[Email] [varchar](90) NOT NULL,
+	[Telefone] [varchar](15) NOT NULL,
+	--[Senha] [nvarchar](64) NOT NULL,
+PRIMARY KEY CLUSTERED([Id] ASC),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Administrador](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Email] [varchar](90) NOT NULL,
+	[Telefone] [varchar](15) NOT NULL,
+	--[Senha] [nvarchar](64) NOT NULL,
+PRIMARY KEY CLUSTERED([Email] ASC),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Time](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Treinador] [int] NOT NULL,
+	[Nome] [varchar](50) NOT NULL,
+	[Principal] [bit] NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Treinador]) REFERENCES [dbo].[tb_Treinador]([Id]),
+	);
+
+CREATE TABLE [dbo].[tb_JnoTime](
+	[Id_Time] [int] NOT NULL,
+	[Id_Jogador] [int] NOT NULL,
+	[Data] [date] NOT NULL,
+PRIMARY KEY CLUSTERED ([Id_Time], [Id_Jogador], [Data]),
+FOREIGN KEY ([Id_Time]) REFERENCES [dbo].[tb_Time]([Id]),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Equipe](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Treinador] [int] NOT NULL,
+PRIMARY KEY CLUSTERED([Id] ASC),
+FOREIGN KEY ([Id_Treinador]) REFERENCES [dbo].[tb_Treinador]([Id])
+	);
+
+CREATE TABLE [dbo].[tb_JnoEquipe](
+	[Id_Equipe] [int] NOT NULL,
+	[Id_Jogador] [int] NOT NULL,
+PRIMARY KEY CLUSTERED([Id_Equipe] ASC),
+FOREIGN KEY ([Id_Equipe]) REFERENCES [dbo].[tb_Equipe]([Id]),
+FOREIGN KEY ([Id_Jogador]) REFERENCES [dbo].[tb_Jogador]([Id]),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Campeao](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](60) NOT NULL,
+	[Id_Posicao] [int] NOT NULL,
+FOREIGN KEY ([id_Posicao]) REFERENCES [dbo].[tb_Posicao] ([Id]),
+PRIMARY KEY CLUSTERED([Id] ASC)
+	);
+
+
+
+--CREATE TABLE [dbo].[tb_Partida](
+	--[Id_Equipe] [int] NOT NULL,
+	--[Id_Jogador] [int] NOT NULL,
+	--[Id_Campeao] [int] NOT NULL,
+	--[Tipo] [varchar] (20) NOT NULL,
+	--[Resultado] [varchar] (60) NOT NULL,
+	--[Objetivos] [int] NOT NULL,
+	--[Farm] [int] NOT NULL,
+	--[KDA] [varchar] (50) NOT NULL,
+	--[Obs] [varchar] (500) NULL,
+--PRIMARY KEY CLUSTERED([Id] ASC),
+--FOREIGN KEY ([Id_Jogador]) REFERENCES [dbo].[tb_Jogador]([Id]),
+--FOREIGN KEY ([Id_Campeao]) REFERENCES [dbo].[tb_Campeao]([Id]),
+--FOREIGN KEY ([Id_Time]) REFERENCES [dbo].[tb_Time]([Id])
+	--);
+
+
+
+CREATE TABLE [dbo].[tb_Composicao](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](60) NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC)
+	);
+
+
+CREATE TABLE [dbo].[tb_Funcao](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Posicao] [int] NOT NULL,
+	[Nome] [varchar](50) NOT NULL,
+	PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Posicao]) REFERENCES [dbo].[tb_Posicao]([Id]),
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Torneio](
+	 [Id] [int] IDENTITY(1,1) NOT NULL,
+	 [Nome] [varchar](50) NOT NULL,
+	 [Id_Time] [int] NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Time]) REFERENCES [dbo].[tb_Time]([Id])
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Treinamento](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Jogador] [int] NOT NULL,
+	[Id_Time] [int] NOT NULL,	
+	[Id_Treinador] [int] NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Jogador]) REFERENCES [dbo].[tb_Jogador]([Id]), 
+FOREIGN KEY ([Id_Time]) REFERENCES [dbo].[tb_Time]([Id]), 
+FOREIGN KEY ([Id_Treinador]) REFERENCES [dbo].[tb_Treinador]([Id]), 
+	);
+
+
+
+CREATE TABLE [dbo].[tb_Agendamento](
+	[Id] [int] IDENTITY (1,1) NOT NULL,
+	[Data] [date] NOT NULL,
+	[Horario] [int] NOT NULL,
+	[Tipo] [nvarchar] (50) NOT NULL,
+	[Motivo] [nvarchar] (50) NOT NULL,
+	[Id_Treinador] [int] NOT NULL,
+PRIMARY KEY CLUSTERED ([Id] ASC),
+FOREIGN KEY ([Id_Treinador]) REFERENCES [dbo].[tb_Treinador]([Id]),
+	);
